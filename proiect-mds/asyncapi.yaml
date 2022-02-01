@@ -1,0 +1,44 @@
+asyncapi: 2.2.0
+info:
+  title: Smart Lamp
+  version: 0.1.0
+  description: Smart lamp IOT device
+servers:
+  dev:
+    url: 127.0.0.1
+    protocol: mqtt
+    description: MQTT Broker
+channels:
+  lamp:
+    subscribe:
+      message:
+        $ref: '#/components/messages/lampUpdate'
+  lampcomm:
+    publish:
+      message:
+        $ref: '#/components/messages/lampPost'
+components:
+  messages:
+    lampUpdate:
+      payload:
+        type: string
+        enum:
+          - Lamp toggled on/off
+          - Lamp color succesfully updated
+          - Lamp reading mode turned on/off
+          - Lamp wave color shuffle turned on/off
+          - Lamp intensity sucesfully updated
+          - Lamp turned off
+          - >-
+            Lamp intensity-{int} R-{int} G-{int} B-{int} reading_mode-{bool}
+            wave-{bool} last_intensity-{int} is_day-{bool} is_nearby-{bool}
+    lampPost:
+      payload:
+        type: string
+        enum:
+          - toggle
+          - reading_mode
+          - wave
+          - 'off'
+          - RGB {int} {int} {int}
+          - intensity {int}
